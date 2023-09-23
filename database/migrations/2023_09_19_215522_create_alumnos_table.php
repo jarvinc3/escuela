@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+    
     public function up()
     {
         Schema::create('alumnos', function (Blueprint $table) {
@@ -16,20 +14,13 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('apellido');
             $table->string('correo_electronico')->unique();
-            $table->date('fecha_nacimiento');
-            $table->string('genero');
-            $table->string('direccion');
-            $table->string('telefono');
-            $table->date('fecha_inscripcion');
-
+            $table->string('asistencia');
             $table->timestamps();
         });
     }
 
 
-    /**
-     * Reverse the migrations.
-     */
+    
     public function down(): void
     {
         Schema::dropIfExists('alumnos');

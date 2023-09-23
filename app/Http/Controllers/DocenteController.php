@@ -9,62 +9,41 @@ class DocenteController extends Controller
 {
     public function index()
     {
-        $docentes = Docente::all();
-        return view('docentes.index', compact('docentes'));
+        $docente = new Docente();
+        return $docente->all();
     }
 
-    public function create()
+    public function show($id)
     {
-        return view('docentes.create');
+        $docente = new Docente();
+        return $docente->find($id);
+
     }
 
     public function store(Request $request)
     {
-        // Validación de datos (puedes personalizar las reglas de validación)
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'apellido' => 'required|string|max:255',
-            'correo_electronico' => 'required|string|email|unique:docentes',
-            'especialidad' => 'required|string',
-        ]);
-
-        // Crear un nuevo docente en la base de datos
-        Docente::create($request->all());
-
-        return redirect()->route('docentes.index')->with('success', 'Docente creado exitosamente');
+        $docente = new Docente();
+        $docente->nombre = $request->nombre;
+        $docente->apellido = $request->apellido;
+        $docente->correo_electronico = $request->correo_electronico;
+        $docente->save();
+        return $docente;
     }
 
-    public function show(Docente $docente)
+    public function edit($id, Request $request)
     {
-        return view('docentes.show', compact('docente'));
+        $docente = Docente::find($id);
+        $docente->nombre = $request->nombre;
+        $docente->apellido = $request->apellido;
+        $docente->correo_electronico = $request->correo_electronico;
+        $docente->save();
+        return $docente;
     }
 
-    public function edit(Docente $docente)
+    public function destroy($id)
     {
-        return view('docentes.edit', compact('docente'));
-    }
-
-    public function update(Request $request, Docente $docente)
-    {
-        // Validación de datos (puedes personalizar las reglas de validación)
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'apellido' => 'required|string|max:255',
-            'correo_electronico' => 'required|string|email|unique:docentes,correo_electronico,' . $docente->id,
-            'especialidad' => 'required|string',
-        ]);
-
-        // Actualizar el docente en la base de datos
-        $docente->update($request->all());
-
-        return redirect()->route('docentes.index')->with('success', 'Docente actualizado exitosamente');
-    }
-
-    public function destroy(Docente $docente)
-    {
-        // Eliminar el docente de la base de datos
+        $docente = Docente::find($id);
         $docente->delete();
-
-        return redirect()->route('docentes.index')->with('success', 'Docente eliminado exitosamente');
+        return $docente->all();
     }
 }

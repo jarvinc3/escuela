@@ -9,64 +9,38 @@ class CursoController extends Controller
 {
     public function index()
     {
-        $cursos = Curso::all();
-        return view('cursos.index', compact('cursos'));
+        $cursos = new Curso();
+        return $cursos->all();
     }
 
-    public function create()
+    public function show($id)
     {
-        return view('cursos.create');
+        $cursos = new Curso();
+        return $cursos->find($id);
     }
 
     public function store(Request $request)
     {
-        // Validación de datos (puedes personalizar las reglas de validación)
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'fecha_inicio' => 'required|date',
-            'fecha_fin' => 'required|date',
-            'cupo_maximo' => 'required|integer',
-        ]);
-
-        // Crear un nuevo curso en la base de datos
-        Curso::create($request->all());
-
-        return redirect()->route('cursos.index')->with('success', 'Curso creado exitosamente');
+        $cursos = new Curso();
+        $cursos->nombre = $request->nombre;
+        $cursos->descripcion = $request->descripcion;
+        $cursos->save();
+        return $cursos;
     }
 
-    public function show(Curso $curso)
+    public function edit($id, Request $request)
     {
-        return view('cursos.show', compact('curso'));
+        $cursos = Curso::find($id);
+        $cursos->nombre = $request->nombre;
+        $cursos->descripcion = $request->descripcion;
+        $cursos->save();
+        return $cursos;
     }
 
-    public function edit(Curso $curso)
+    public function destroy($id)
     {
-        return view('cursos.edit', compact('curso'));
-    }
-
-    public function update(Request $request, Curso $curso)
-    {
-        // Validación de datos (puedes personalizar las reglas de validación)
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'fecha_inicio' => 'required|date',
-            'fecha_fin' => 'required|date',
-            'cupo_maximo' => 'required|integer',
-        ]);
-
-        // Actualizar el curso en la base de datos
-        $curso->update($request->all());
-
-        return redirect()->route('cursos.index')->with('success', 'Curso actualizado exitosamente');
-    }
-
-    public function destroy(Curso $curso)
-    {
-        // Eliminar el curso de la base de datos
-        $curso->delete();
-
-        return redirect()->route('cursos.index')->with('success', 'Curso eliminado exitosamente');
+        $cursos = Curso::find($id);
+        $cursos->delete();
+        return $cursos->all();
     }
 }

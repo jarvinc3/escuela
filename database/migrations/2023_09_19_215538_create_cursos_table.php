@@ -15,9 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->text('descripcion');
-            $table->date('fecha_inicio');
-            $table->date('fecha_fin');
-            $table->integer('cupo_maximo');
 
             $table->timestamps();
         });
