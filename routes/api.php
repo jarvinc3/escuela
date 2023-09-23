@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AlumnoController;
+use App\Http\Controllers\AlumnoCursoController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\DocenteController;
 use Illuminate\Http\Request;
@@ -35,3 +36,11 @@ Route::controller(AlumnoController::class)->group(function() {
     Route::put('/curso/{id}', 'edit');
     Route::delete('/curso/{id}', 'destroy');
  });
+
+ Route::controller(AlumnoCursoController::class)->group(function() {
+   Route::get('/inscripcion', 'index');
+   Route::get('/inscripcion/{id}', 'show');
+   Route::post('/inscripcion', 'store');
+   Route::put('/inscripcion/{id}', 'edit');
+   Route::delete('/inscripcion/{id}', 'destroy');
+});
