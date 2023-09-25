@@ -14,9 +14,10 @@ class AlumnoCursoController extends Controller
         return $inscripcion->all();
     }
 
-    public function create()
+    public function show($id)
     {
-        return view('cursos.create');
+        $inscripcion = new AlumnoCurso();
+        return $inscripcion->find($id);
     }
 
     public function store(Request $request)
@@ -27,22 +28,6 @@ class AlumnoCursoController extends Controller
         $inscripcion->save();
         return $inscripcion;
     }
-
-    public function show($id)
-    {
-        $inscripcion = new AlumnoCurso();
-        return $inscripcion->find($id);
-    }
-
-    public function edit($id, Request $request)
-    {
-        $inscripcion = AlumnoCurso::find($id);
-        $inscripcion->alumno_id = $request->alumno_id;
-        $inscripcion->curso_id = $request->curso_id;
-        $inscripcion->save();
-        return $inscripcion;
-    }
-
 
     public function destroy($id)
     {
